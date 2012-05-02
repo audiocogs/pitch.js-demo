@@ -1,0 +1,6 @@
+[submodule "vendor/mike.js"]
+	path = vendor/mike.js
+	url = git://github.com/jussi-kalliokoski/mike.js.git
+[submodule "vendor/pitch.js"]
+	path = vendor/pitch.js
+	url = git@github.com:ofmlabs/pitch.js.git
