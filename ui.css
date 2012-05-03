@@ -1,0 +1,93 @@
+@font-face {
+    font-family: 'Digital7Mono';
+    src: url('resources/digital-7_mono.eot');
+    src: url('resources/digital-7_mono.woff') format('woff'),
+         url('resources/digital-7_mono.eot?#iefix') format('embedded-opentype'),
+         url('resources/digital-7_mono.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.tuner {
+    width: 400px;
+    height: 238px;
+    margin: 0 auto;
+    background: url('resources/background.png');
+    border-radius: 5px;
+    border: 1px solid #333;
+    box-shadow: black 0 2px 18px;
+    overflow: hidden;
+    position: relative;
+}
+
+.tuner .mike-js {
+    position: absolute;
+    z-index: 100;
+    /* TODO: center the element within the tuner and add a backdrop */
+}
+
+.tuner:after {
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    content: " ";
+    box-shadow: rgba(0, 0, 0, 0.25) 0 -3px 4px inset;
+    border-radius: 5px;
+}
+
+.tuner .wheel {
+    width: 419px;
+    height: 420px;
+    background: url('resources/wheel.png');
+    position: absolute;
+    top: 43px;
+    left: -9px;
+}
+
+.tuner .arrow {
+    width: 27px;
+    height: 40px;
+    position: absolute;
+    top: 30px;
+    left: 187px;
+    background: url('resources/green_arrow.png');
+}
+
+.tuner .freq {
+    font-family: Digital7Mono;
+    font-size: 48px;
+    color: #ED0B06;
+    text-shadow: #ec0a06 0 0 6px;
+    position: absolute;
+    top: 180px;
+    width: 100%;
+    text-align: center;
+    -webkit-user-select: none;
+    cursor: default;
+}
+
+.tuner .freq span {
+    font-family: HelveticaNeue-Light;
+    font-size: 18px;
+    font-weight: 100;
+}
+
+.tuner svg {
+    width: 12px;
+    height: 35px;
+}
+
+.tuner .flat {
+    position: absolute;
+    left: 70px;
+    top: 35px;
+}
+
+.tuner .sharp {
+    position: absolute;
+    left: 330px;
+    top: 34px;
+}
+
+.tuner .flat.highlighted path, .tuner .sharp.highlighted path {
+    fill: red;
+}
