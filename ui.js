@@ -1,5 +1,5 @@
 var wheel = document.querySelector('.tuner .wheel'),
-    c = document.querySelector('c'),
+    c = document.querySelector('.tuner .freq').childNodes[0],
     pitch = null;
     
 var mike = new Mike({
@@ -33,7 +33,7 @@ mike.on('data', function(data) {
             angle = -getAngle(note + 3);
             
         wheel.style.webkitTransform = 'rotate(' + angle + 'rad)';
-        c.innerHTML = freq;
+        c.textContent = freq;
         
         // TODO
         // 1. octave indicators
