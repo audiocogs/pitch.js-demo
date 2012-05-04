@@ -4,12 +4,16 @@ var wheel = document.querySelector('.tuner .wheel'),
     
 var mike = new Mike({
     swfPath: 'vendor/mike.swf',
-    parentElement: document.querySelector('.tuner')
+    parentElement: document.querySelector('.tuner'),
+    settings: {
+        codec: Mike.SoundCodec.NELLYMOSER,
+        sampleRate: 44100
+    }
 });
 
 mike.on('ready', function() {
     pitch = new PitchAnalyzer(44100);
-    
+
     this.setMicrophone();
     this.start();
 });
