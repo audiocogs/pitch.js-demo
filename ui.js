@@ -1,6 +1,18 @@
+Mike.on('error', function(e) {
+    console.log('Uncaught error:', e);
+});
+
 var wheel = document.querySelector('.tuner .wheel'),
     c = document.querySelector('.tuner .freq').childNodes[0],
     pitch = null;
+
+wheel.rotate = function (angle) {
+    var prefixes = ['webkitT', 'MozT', 'msT', 'OT', 't'];
+
+    for (var i=0; i<prefixes.length; i++) {
+        this.style[prefixes[i] + 'ransform'] = 'rotate(' + angle + 'rad)';
+    }
+};
     
 var mike = new Mike({
     swfPath: 'vendor/mike.swf',
@@ -16,10 +28,14 @@ mike.on('ready', function() {
 
     this.setMicrophone();
     this.start();
+
+    if (!this.getParam('muted')) {
+        this.hide();
+    }
 });
 
 mike.on('statechange', function(e) {
-    this.domElement.style.visibility = 'hidden';
+    this.hide();
 })
 
 mike.on('error', function(e) {
@@ -36,7 +52,7 @@ mike.on('data', function(data) {
             note = getNote(freq),
             angle = -getAngle(note + 3);
             
-        wheel.style.webkitTransform = 'rotate(' + angle + 'rad)';
+        wheel.rotate(angle);
         c.textContent = freq;
         
         // TODO
