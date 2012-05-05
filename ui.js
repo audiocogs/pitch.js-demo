@@ -15,6 +15,18 @@ wheel.rotate = function (angle) {
         this.style[prefixes[i] + 'ransform'] = 'rotate(' + angle + 'rad)';
     }
 };
+
+function toggleClass (elem, cls, add) {
+    if (elem.classList) {
+        elem[add ? 'add' : 'remove'](cls);
+    } else if (typeof elem.className === 'string') {
+        elem.className = elem.className.replace(cls, '') +
+            (add ? ' ' + cls : '');
+    } else if (typeof elem.className === 'object') {
+        elem.className.baseVal = elem.className.baseVal.replace(cls, '') +
+            (add ? ' ' + cls : '');
+    }
+}
     
 var mike = new Mike({
     swfPath: 'vendor/mike.swf',
@@ -60,8 +72,8 @@ mike.on('data', function(data) {
         wheel.rotate(angle);
         c.textContent = Math.round(freq);
 
-        flat.classList[isFlat ? 'add' : 'remove']('highlighted');
-        sharp.classList[isSharp ? 'add' : 'remove']('highlighted');
+        toggleClass(flat, 'highlighted', isFlat);
+        toggleClass(sharp, 'highlighted', isSharp);
         // TODO
         // 1. octave indicators
         // 2. change arrow from green to gray when out of tune
