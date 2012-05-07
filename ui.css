@@ -49,6 +49,10 @@
     position: absolute;
     top: 30px;
     left: 187px;
+    background: url('resources/gray_arrow.png');
+}
+
+.tuner .arrow.highlighted {
     background: url('resources/green_arrow.png');
 }
 

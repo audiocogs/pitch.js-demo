@@ -6,6 +6,7 @@ var wheel = document.querySelector('.tuner .wheel'),
     c = document.querySelector('.tuner .freq').childNodes[0],
     flat = document.querySelector('.tuner .flat'),
     sharp = document.querySelector('.tuner .sharp'),
+    arrow = document.querySelector('.tuner .arrow'),
     pitch = null;
 
 wheel.rotate = function (angle) {
@@ -67,16 +68,18 @@ mike.on('data', function(data) {
             angle = -getAngle(note + 3),
             detune = note - Math.round(note),
             isFlat = detune < -0.01,
-            isSharp = detune > 0.01;
+            isSharp = detune > 0.01,
+            inTune = !isFlat && !isSharp;
             
         wheel.rotate(angle);
         c.textContent = Math.round(freq);
 
         toggleClass(flat, 'highlighted', isFlat);
         toggleClass(sharp, 'highlighted', isSharp);
+        toggleClass(arrow, 'highlighted', inTune);
+        
         // TODO
         // 1. octave indicators
-        // 2. change arrow from green to gray when out of tune
     }
 });
 
