@@ -9,7 +9,7 @@ var wheel = document.querySelector('.tuner .wheel'),
     arrow = document.querySelector('.tuner .arrow'),
     pitch = null;
 
-wheel.rotate = function (angle) {
+wheel.rotate = function(angle) {
     var prefixes = ['webkitT', 'MozT', 'msT', 'OT', 't'];
 
     for (var i=0; i<prefixes.length; i++) {
@@ -17,9 +17,9 @@ wheel.rotate = function (angle) {
     }
 };
 
-function toggleClass (elem, cls, add) {
+function toggleClass(elem, cls, add) {
     if (elem.classList) {
-        elem[add ? 'add' : 'remove'](cls);
+        elem.classList[add ? 'add' : 'remove'](cls);
     } else if (typeof elem.className === 'string') {
         elem.className = elem.className.replace(cls, '') +
             (add ? ' ' + cls : '');
@@ -28,36 +28,8 @@ function toggleClass (elem, cls, add) {
             (add ? ' ' + cls : '');
     }
 }
-    
-var mike = new Mike({
-    swfPath: 'vendor/mike.swf',
-    parentElement: document.querySelector('.tuner'),
-    settings: {
-        codec: Mike.SoundCodec.NELLYMOSER,
-        sampleRate: 44100
-    }
-});
 
-mike.on('ready', function() {
-    pitch = new PitchAnalyzer(44100);
-
-    this.setMicrophone();
-    this.start();
-
-    if (!this.getParam('muted')) {
-        this.hide();
-    }
-});
-
-mike.on('statechange', function(e) {
-    this.hide();
-})
-
-mike.on('error', function(e) {
-    console.log(e);
-});
-
-mike.on('data', function(data) {
+function processData(data) {
     pitch.input(data);
     pitch.process();
     var tone = pitch.findTone();
@@ -81,7 +53,71 @@ mike.on('data', function(data) {
         // TODO
         // 1. octave indicators
     }
-});
+}
+
+try {
+    void webkitAudioContext.prototype.createMediaStreamSource.length
+
+    navigator.webkitGetUserMedia({
+        audio: true
+    }, function(stream) {
+        try {
+            var ctx = new webkitAudioContext();
+            var src = ctx.createMediaStreamSource(stream);
+            var processor = ctx.createJavaScriptNode(4096, 1, 1);
+
+            pitch = new PitchAnalyzer(ctx.sampleRate);
+
+            processor.onaudioprocess = function(e) {
+                var data = e.inputBuffer.getChannelData(0);
+
+                processData(data);
+            };
+
+            src.connect(processor);
+            processor.connect(ctx.destination);
+        } catch (e) {
+            createMike();
+        }
+    }, function(error) {
+        alert('Oops, looks like you denied pitch.js access to your microphone!');
+    });
+} catch (e) {
+    createMike();
+}
+
+function createMike() {
+
+    var mike = new Mike({
+        swfPath: 'vendor/mike.swf',
+        parentElement: document.querySelector('.tuner'),
+        settings: {
+            codec: Mike.SoundCodec.NELLYMOSER,
+            sampleRate: 44100
+        }
+    });
+
+    mike.on('ready', function() {
+        pitch = new PitchAnalyzer(44100);
+
+        this.setMicrophone();
+        this.start();
+
+        if (!this.getParam('muted')) {
+            this.hide();
+        }
+    });
+
+    mike.on('statechange', function(e) {
+        this.hide();
+    })
+
+    mike.on('error', function(e) {
+        console.log(e);
+    });
+
+    mike.on('data', processData);
+}
 
 function getNote(frequency, reference) {
     if (!frequency) return null;
