@@ -3,7 +3,7 @@
 	url = git://github.com/jussi-kalliokoski/mike.js.git
 [submodule "vendor/pitch.js"]
 	path = vendor/pitch.js
-	url = git@github.com:ofmlabs/pitch.js.git
+	url = git@github.com:audiocogs/pitch.js.git
 [submodule "vendor/fft.js"]
 	path = vendor/fft.js
 	url = git@github.com:JensNockert/fft.js
