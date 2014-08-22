@@ -17,7 +17,7 @@ If you have already cloned the repository without the `--recursive` option you a
 
 ## Running the demo
 
-Browsers put restrictions on `file://` and demo will not work if you open the file directly. You need to set up a web server on your machine.
+Browsers put restrictions on `file://` and the demo will not work if you open the file directly. You need to set up a web server on your machine.
 
 If you have Python 3 installed, run the following from the repository's directory:
 
